@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Anton", sans-serif;
+  --font-sans: "Space Grotesk", sans-serif;
+  --font-mono: "Space Mono", monospace;
+  
+  --color-void: #050505;
+  --color-neon-cyan: #00ffff;
+  --color-neon-orange: #bf00ff;
+  --color-neon-yellow: #ffff00;
+  --color-surface-dark: #111111;
+  --color-surface-card: #161616;
+}
+
+/* Custom CSS Effects for Technical Maximalist Theme */
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 64px;
+}
+
+.text-stroke-cyan {
+  -webkit-text-stroke: 1.5px #00ffff;
+  color: transparent;
+}
+
+.text-stroke-orange {
+  -webkit-text-stroke: 1.5px #bf00ff;
+  color: transparent;
+}
+
+/* Scanline Effect */
+.scanlines {
+  position: relative;
+}
+
+.scanlines::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+  background-size: 100% 4px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* Rolling scanline bar */
+.scanlines::after {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 100px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 255, 255, 0),
+    rgba(0, 255, 255, 0.03) 50%,
+    rgba(0, 255, 255, 0) 100%
+  );
+  opacity: 0.8;
+  z-index: 50;
+  pointer-events: none;
+  animation: scanline-scroll 8s linear infinite;
+}
+
+@keyframes scanline-scroll {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Cyber Terminal Grid Background */
+.cyber-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+/* Glowing text */
+.glow-cyan {
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5), 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.glow-orange {
+  text-shadow: 0 0 5px rgba(191, 0, 255, 0.5), 0 0 10px rgba(191, 0, 255, 0.3);
+}
+
+/* Dog-ear cut corners */
+.clip-corner {
+  clip-path: polygon(
+    0px 0px, 
+    calc(100% - 12px) 0px, 
+    100% 12px, 
+    100% 100%, 
+    12px 100%, 
+    0px calc(100% - 12px)
+  );
+}
+
+.clip-corner-sm {
+  clip-path: polygon(
+    0px 0px, 
+    calc(100% - 6px) 0px, 
+    100% 6px, 
+    100% 100%, 
+    6px 100%, 
+    0px calc(100% - 6px)
+  );
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border: 1px solid #00ffff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00ffff;
+}
+
+/* Custom Cursor Hider */
+.cursor-none-all, .cursor-none-all * {
+  cursor: none !important;
+}
+
+/* High-performance Smooth Glittering Shimmer Effect */
+@keyframes glitter-slide {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes elegant-glow {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.3), 0 0 15px rgba(0, 255, 255, 0.1);
+  }
+  50% {
+    text-shadow: 0 0 16px rgba(0, 255, 255, 0.6), 0 0 25px rgba(255, 93, 0, 0.2);
+  }
+}
+
+.glitter-text {
+  background: linear-gradient(
+    90deg,
+    #00ffff 0%,
+    #00ffff 35%,
+    #ffffff 50%,
+    #00ffff 65%,
+    #00ffff 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: glitter-slide 3s linear infinite, elegant-glow 4s ease-in-out infinite;
+  display: inline-block;
+}
+
+.glitter-text-hover {
+  transition: all 0.3s ease;
+}
+
+.glitter-text-hover:hover {
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 30px rgba(255, 93, 0, 0.5);
+  color: #00ffff;
+}
+
+/* Cyber Glitch Effect */
+.cyber-glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.cyber-glitch::before,
+.cyber-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Cyan split layer */
+.cyber-glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #00ffff;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Blue split layer (instead of pink/magenta) */
+.cyber-glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #0088ff, 2px 2px #0055ff;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Active Glitch Animations on Hover of the container */
+.brand-container:hover .cyber-glitch::before {
+  animation: glitch-anim-1 0.3s infinite linear alternate-reverse;
+}
+
+.brand-container:hover .cyber-glitch::after {
+  animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+}
+
+/* Glitch keyframes */
+@keyframes glitch-anim-1 {
+  0% {
+    clip-path: inset(20% 0 50% 0);
+    transform: skew(-4deg) translate(-2px, -1px);
+  }
+  20% {
+    clip-path: inset(80% 0 5% 0);
+    transform: skew(2deg) translate(1px, 2px);
+  }
+  40% {
+    clip-path: inset(45% 0 30% 0);
+    transform: skew(-2deg) translate(-1px, 1px);
+  }
+  60% {
+    clip-path: inset(10% 0 75% 0);
+    transform: skew(5deg) translate(2px, -2px);
+  }
+  80% {
+    clip-path: inset(60% 0 15% 0);
+    transform: skew(-4deg) translate(-1px, 2px);
+  }
+  100% {
+    clip-path: inset(30% 0 40% 0);
+    transform: skew(3deg) translate(2px, 1px);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip-path: inset(10% 0 85% 0);
+    transform: skew(4deg) translate(2px, 1px);
+  }
+  20% {
+    clip-path: inset(60% 0 20% 0);
+    transform: skew(-3deg) translate(-1px, -2px);
+  }
+  40% {
+    clip-path: inset(30% 0 60% 0);
+    transform: skew(2deg) translate(1px, 2px);
+  }
+  60% {
+    clip-path: inset(85% 0 5% 0);
+    transform: skew(-5deg) translate(-2px, -1px);
+  }
+  80% {
+    clip-path: inset(15% 0 45% 0);
+    transform: skew(4deg) translate(2px, -2px);
+  }
+  100% {
+    clip-path: inset(50% 0 10% 0);
+    transform: skew(-2deg) translate(-1px, 2px);
+  }
+}
+

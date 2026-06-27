@@ -1,0 +1,6 @@
+{
+  "name": "Adeeb Systems Portfolio",
+  "description": "A high-fidelity Technical Maximalist developer portfolio dashboard for Adeeb Ahammed K M, featuring active data terminal feeds, real-time coordinate tracking, and visual modules.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
