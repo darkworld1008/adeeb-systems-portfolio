@@ -506,7 +506,7 @@ export default function App() {
                   <div className="flex flex-wrap gap-3 font-mono text-xs pt-2">
                     {/* Get CV Button */}
                     <a 
-                      href="/cv.pdf"
+                      href={`${import.meta.env.BASE_URL}cv.pdf`}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => {
