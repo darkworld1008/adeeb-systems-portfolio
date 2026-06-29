@@ -22,7 +22,9 @@ import {
   Award,
   Bot,
   MessageSquare,
-  User
+  User,
+  X,
+  Github
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ConsoleLine } from "./types";
@@ -73,6 +75,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("root");
   const [logs, setLogs] = useState<ConsoleLine[]>(initialBootLogs);
   const [copiedText, setCopiedText] = useState<string | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   
   // Contact Form State
   const [contactMessage, setContactMessage] = useState("");
@@ -401,9 +404,171 @@ export default function App() {
             <span className="text-neon-cyan text-[8px] font-bold hidden sm:inline">SECURE_TUNNEL_ESTABLISHED</span>
             <span className="text-neon-cyan text-[8px] font-bold sm:hidden">SECURE</span>
           </div>
-          <Settings className="w-3.5 h-3.5 hover:text-neon-orange hover:rotate-90 transition-transform duration-300 cursor-pointer" />
+          <button
+            onClick={() => setSettingsOpen((v) => !v)}
+            className={`relative w-6 h-6 flex items-center justify-center transition-all duration-300 cursor-pointer rounded-sm ${
+              settingsOpen
+                ? "text-neon-orange bg-neon-orange/10 border border-neon-orange/40"
+                : "text-[#b9cac9] hover:text-neon-orange"
+            }`}
+            title="SYSTEM MENU"
+          >
+            {settingsOpen
+              ? <X className="w-3.5 h-3.5" />
+              : <Settings className="w-3.5 h-3.5 hover:rotate-90 transition-transform duration-300" />
+            }
+          </button>
         </div>
       </header>
+
+      {/* ── Settings / Quick-Link Dropdown Panel ── */}
+      <AnimatePresence>
+        {settingsOpen && (
+          <motion.div
+            key="settings-panel"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="fixed top-[41px] right-0 z-40 sm:right-0 w-full sm:w-[340px] bg-[#0d0d0d]/98 border border-[#3a4a49] border-t-0 shadow-[0_8px_40px_rgba(0,255,255,0.08)] font-mono select-none backdrop-blur-sm"
+          >
+            {/* Panel header */}
+            <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#3a4a49] bg-[#111111]">
+              <div className="flex items-center gap-2">
+                <Settings className="w-3 h-3 text-neon-orange animate-spin" style={{ animationDuration: '4s' }} />
+                <span className="text-[9px] text-neon-orange font-bold tracking-widest uppercase">SYS_MENU // OPERATOR_LINKS</span>
+              </div>
+              <div className="flex gap-1">
+                <span className="w-2 h-2 rounded-full bg-[#bf00ff]/60"></span>
+                <span className="w-2 h-2 rounded-full bg-neon-yellow/60"></span>
+                <span className="w-2 h-2 rounded-full bg-neon-cyan/60"></span>
+              </div>
+            </div>
+
+            {/* Operator ID badge */}
+            <div className="px-4 py-3 border-b border-[#3a4a49]/50 bg-[#0a0a0a]">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 border border-neon-cyan/40 bg-neon-cyan/5 flex items-center justify-center text-neon-cyan font-display text-sm">
+                  AS
+                </div>
+                <div>
+                  <div className="text-[11px] text-white font-bold tracking-wide">ADEEB AHAMMED K M</div>
+                  <div className="text-[8px] text-gray-500 mt-0.5">OPERATOR_ID: 10101 // KERALA, INDIA</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    <span className="w-1.5 h-1.5 bg-[#00ffcc] rounded-full animate-pulse"></span>
+                    <span className="text-[7px] text-[#00ffcc] font-bold">STATUS: ONLINE</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact links */}
+            <div className="px-4 py-3 space-y-1">
+              <div className="text-[8px] text-gray-600 tracking-widest mb-2 uppercase">// COMMUNICATION_CHANNELS</div>
+
+              {/* Email */}
+              <a
+                href="mailto:adeebahamedkm@gmail.com"
+                onClick={() => setSettingsOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 border border-transparent hover:border-neon-cyan/30 hover:bg-neon-cyan/5 transition-all duration-200 group rounded-sm"
+              >
+                <div className="w-7 h-7 border border-neon-cyan/30 bg-neon-cyan/5 flex items-center justify-center shrink-0 group-hover:border-neon-cyan group-hover:bg-neon-cyan/10 transition-all">
+                  <Mail className="w-3.5 h-3.5 text-neon-cyan" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[9px] text-gray-400 font-bold tracking-widest">EMAIL</div>
+                  <div className="text-[10px] text-white truncate group-hover:text-neon-cyan transition-colors">adeebahamedkm@gmail.com</div>
+                </div>
+                <ArrowUpRight className="w-3 h-3 text-gray-600 group-hover:text-neon-cyan ml-auto shrink-0 transition-colors" />
+              </a>
+
+              {/* Phone */}
+              <a
+                href="tel:+919037340138"
+                onClick={() => setSettingsOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 border border-transparent hover:border-neon-cyan/30 hover:bg-neon-cyan/5 transition-all duration-200 group rounded-sm"
+              >
+                <div className="w-7 h-7 border border-[#00ffcc]/30 bg-[#00ffcc]/5 flex items-center justify-center shrink-0 group-hover:border-[#00ffcc] group-hover:bg-[#00ffcc]/10 transition-all">
+                  <Phone className="w-3.5 h-3.5 text-[#00ffcc]" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[9px] text-gray-400 font-bold tracking-widest">PHONE</div>
+                  <div className="text-[10px] text-white group-hover:text-[#00ffcc] transition-colors">+91 9037340138</div>
+                </div>
+                <ArrowUpRight className="w-3 h-3 text-gray-600 group-hover:text-[#00ffcc] ml-auto shrink-0 transition-colors" />
+              </a>
+
+              {/* GitHub */}
+              <a
+                href="https://github.com/darkworld1008"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setSettingsOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 border border-transparent hover:border-neon-cyan/30 hover:bg-neon-cyan/5 transition-all duration-200 group rounded-sm"
+              >
+                <div className="w-7 h-7 border border-gray-600/40 bg-gray-600/5 flex items-center justify-center shrink-0 group-hover:border-gray-400 group-hover:bg-gray-600/10 transition-all">
+                  <Github className="w-3.5 h-3.5 text-gray-400" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[9px] text-gray-400 font-bold tracking-widest">GITHUB</div>
+                  <div className="text-[10px] text-white group-hover:text-gray-300 transition-colors">darkworld1008</div>
+                </div>
+                <ArrowUpRight className="w-3 h-3 text-gray-600 group-hover:text-gray-300 ml-auto shrink-0 transition-colors" />
+              </a>
+
+              {/* LinkedIn */}
+              <a
+                href="https://www.linkedin.com/in/adeeb-ahammed-km-799b0a33b?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setSettingsOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 border border-transparent hover:border-[#0077b5]/40 hover:bg-[#0077b5]/5 transition-all duration-200 group rounded-sm"
+              >
+                <div className="w-7 h-7 border border-[#0077b5]/30 bg-[#0077b5]/5 flex items-center justify-center shrink-0 group-hover:border-[#0077b5] group-hover:bg-[#0077b5]/10 transition-all">
+                  <Linkedin className="w-3.5 h-3.5 text-[#0ea5e9]" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[9px] text-gray-400 font-bold tracking-widest">LINKEDIN</div>
+                  <div className="text-[10px] text-white group-hover:text-[#0ea5e9] transition-colors">adeeb-ahammed-km</div>
+                </div>
+                <ArrowUpRight className="w-3 h-3 text-gray-600 group-hover:text-[#0ea5e9] ml-auto shrink-0 transition-colors" />
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/adeeeb____?igsh=MTRrYW43MTFpNzZrYQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setSettingsOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 border border-transparent hover:border-[#bf00ff]/30 hover:bg-[#bf00ff]/5 transition-all duration-200 group rounded-sm"
+              >
+                <div className="w-7 h-7 border border-[#bf00ff]/30 bg-[#bf00ff]/5 flex items-center justify-center shrink-0 group-hover:border-[#bf00ff] group-hover:bg-[#bf00ff]/10 transition-all">
+                  <Instagram className="w-3.5 h-3.5 text-[#bf00ff]" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[9px] text-gray-400 font-bold tracking-widest">INSTAGRAM</div>
+                  <div className="text-[10px] text-white group-hover:text-[#bf00ff] transition-colors">@adeeeb____</div>
+                </div>
+                <ArrowUpRight className="w-3 h-3 text-gray-600 group-hover:text-[#bf00ff] ml-auto shrink-0 transition-colors" />
+              </a>
+            </div>
+
+            {/* Panel footer */}
+            <div className="px-4 py-2 border-t border-[#3a4a49]/50 bg-[#0a0a0a] flex justify-between items-center">
+              <span className="text-[7px] text-gray-600">ADEEB_CORE_OS // SYS_LINK_MODULE v2.0</span>
+              <span className="text-[7px] text-neon-cyan font-bold">ALL CHANNELS ACTIVE</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Backdrop to close settings on outside click */}
+      {settingsOpen && (
+        <div
+          className="fixed inset-0 z-30"
+          onClick={() => setSettingsOpen(false)}
+        />
+      )}
 
       {/* Main Content Stage */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-8 space-y-12 sm:space-y-16">
