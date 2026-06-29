@@ -392,12 +392,8 @@ export default function App() {
         </div>
         
         <div className="flex items-center gap-2 sm:gap-4 text-gray-400 shrink-0">
-          {/* Mobile: show compact HH:MM:SS only */}
-          <span className="text-[8px] text-[#839493] font-bold lg:hidden">
-            {topTime ? topTime.split(" ").slice(4, 5).join("") : ""}
-          </span>
-          {/* Desktop lg+: show full UTC date+time string */}
-          <span className="text-[9px] text-[#839493] hidden lg:inline font-bold">
+          {/* Full UTC date+time on ALL screen sizes */}
+          <span className="text-[7px] xs:text-[8px] sm:text-[9px] text-[#839493] font-bold whitespace-nowrap">
             {topTime}
           </span>
           <div className="flex items-center gap-1.5 border border-[#3a4a49] px-2 py-0.5 bg-[#111111]">
