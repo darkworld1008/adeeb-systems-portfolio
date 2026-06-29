@@ -42,8 +42,21 @@ export default function NavigationSidebar({
       <aside className="hidden sm:flex w-16 flex-col justify-between items-center bg-[#0d0d0d] border-r border-[#3a4a49] py-4 h-screen fixed top-0 left-0 z-50">
         {/* Top Brand Logo */}
         <div className="flex flex-col items-center gap-1.5 w-full select-none pointer-events-none">
-          <div className="w-10 h-10 border border-neon-cyan flex items-center justify-center font-display text-base text-neon-cyan bg-neon-cyan/5">
-            AS
+          <div className="w-11 h-11">
+            <svg width="44" height="44" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="200" fill="#000000" />
+              <path d="M40 160V40H100V160H85V105H55V160H40ZM55 90H85V55H55V90Z" fill="#00ffff" />
+              <path d="M42 162V42H102V162H87V107H57V162H42ZM57 92H87V57H57V92Z" fill="#ff00ff" opacity="0.5" />
+              <path d="M110 160V145H145V115H110V40H160V55H125V85H160V160H110Z" fill="#00ffff" />
+              <path d="M112 162V147H147V117H112V42H162V57H127V87H162V162H112Z" fill="#ff00ff" opacity="0.5" />
+              <g opacity="0.2">
+                <rect x="0" y="20" width="200" height="2" fill="#ffffff" />
+                <rect x="0" y="60" width="200" height="2" fill="#ffffff" />
+                <rect x="0" y="100" width="200" height="2" fill="#ffffff" />
+                <rect x="0" y="140" width="200" height="2" fill="#ffffff" />
+                <rect x="0" y="180" width="200" height="2" fill="#ffffff" />
+              </g>
+            </svg>
           </div>
           <div className="w-1.5 h-1.5 bg-[#00ffcc] rounded-full animate-ping mt-1"></div>
         </div>

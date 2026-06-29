@@ -499,8 +499,21 @@ export default function App() {
             {/* Operator ID badge */}
             <div className="px-4 py-3 border-b border-[#3a4a49]/50 bg-[#0a0a0a]">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 border border-neon-cyan/40 bg-neon-cyan/5 flex items-center justify-center text-neon-cyan font-display text-sm">
-                  AS
+                <div className="w-9 h-9 shrink-0 overflow-hidden">
+                  <svg width="36" height="36" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="200" height="200" fill="#000000" />
+                    <path d="M40 160V40H100V160H85V105H55V160H40ZM55 90H85V55H55V90Z" fill="#00ffff" />
+                    <path d="M42 162V42H102V162H87V107H57V162H42ZM57 92H87V57H57V92Z" fill="#ff00ff" opacity="0.5" />
+                    <path d="M110 160V145H145V115H110V40H160V55H125V85H160V160H110Z" fill="#00ffff" />
+                    <path d="M112 162V147H147V117H112V42H162V57H127V87H162V162H112Z" fill="#ff00ff" opacity="0.5" />
+                    <g opacity="0.2">
+                      <rect x="0" y="20" width="200" height="2" fill="#ffffff" />
+                      <rect x="0" y="60" width="200" height="2" fill="#ffffff" />
+                      <rect x="0" y="100" width="200" height="2" fill="#ffffff" />
+                      <rect x="0" y="140" width="200" height="2" fill="#ffffff" />
+                      <rect x="0" y="180" width="200" height="2" fill="#ffffff" />
+                    </g>
+                  </svg>
                 </div>
                 <div>
                   <div className="text-[11px] text-white font-bold tracking-wide">ADEEB AHAMMED K M</div>
