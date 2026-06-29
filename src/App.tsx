@@ -328,9 +328,22 @@ export default function App() {
     const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
     if (!accessKey) {
-      addLog(`SMTP_ERROR: VITE_WEB3FORMS_ACCESS_KEY is missing in your environment.`, "error");
-      addLog(`INSTRUCTION: Go to web3forms.com, register adeebahamedkm@gmail.com, and add the key to your .env file.`, "system");
-      setIsSending(false);
+      addLog(`SMTP_WARNING: VITE_WEB3FORMS_ACCESS_KEY is missing in your environment.`, "warning");
+      addLog(`FALLBACK: Redirecting to local mail client with pre-filled message...`, "system");
+      
+      const subject = encodeURIComponent(`Portfolio Contact from ${contactName}`);
+      const body = encodeURIComponent(`Name: ${contactName}\nEmail: ${contactEmail}\n\nMessage:\n${contactMessage}`);
+      
+      // Delay slightly to let the terminal log update before redirection
+      setTimeout(() => {
+        window.location.href = `mailto:adeebahamedkm@gmail.com?subject=${subject}&body=${body}`;
+        setIsSending(false);
+        setFormSubmitted(true);
+        setContactName("");
+        setContactEmail("");
+        setContactMessage("");
+        setTimeout(() => setFormSubmitted(false), 5000);
+      }, 800);
       return;
     }
 
