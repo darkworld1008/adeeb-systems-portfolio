@@ -129,5 +129,6 @@ export const initialBootLogs: ConsoleLine[] = [
   { timestamp: "0.801290", text: "SYSTEM: Mounting operational assets at /var/www/loomi", type: "system" },
   { timestamp: "0.892019", text: "SYSTEM: Synchronizing dotfile packages at /home/adeeb/.config", type: "system" },
   { timestamp: "1.020491", text: "SYSTEM: Launching terminal dashboard (v2.0-core)...", type: "success" },
-  { timestamp: "1.050000", text: "STATUS: Operational status set to PEAK PERFORMANCE", type: "success" }
+  { timestamp: "1.050000", text: "STATUS: Operational status set to PEAK PERFORMANCE", type: "success" },
+  { timestamp: "1.080000", text: "SYSTEM_EASTER_EGG: Subroutine 'snake' loaded successfully. Type 'snake' to execute.", type: "warning" }
 ];

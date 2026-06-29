@@ -89,6 +89,9 @@ export default function BootLogTerminal({ logs, onAddLog, onClearLogs }: BootLog
           <span>SYSTEM_BOOT_LOG</span>
         </div>
         <div className="flex items-center gap-2">
+          <span className="text-[8px] text-neon-cyan font-bold tracking-widest border border-neon-cyan/30 px-1 py-0.2 bg-neon-cyan/5 rounded-sm animate-pulse">
+            EGG_MODULE: LOADED
+          </span>
           <span className="text-neon-yellow animate-pulse">● RECORDING</span>
           <button 
             onClick={triggerDiagnostic}
@@ -151,7 +154,7 @@ export default function BootLogTerminal({ logs, onAddLog, onClearLogs }: BootLog
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           onKeyDown={handleCommandSubmit}
-          placeholder="type 'help'..."
+          placeholder="type 'help' or 'snake'..."
           className="flex-1 bg-transparent border-none outline-none text-[#ffffff] focus:ring-0 placeholder-gray-700 font-mono py-0 h-4"
         />
       </div>
