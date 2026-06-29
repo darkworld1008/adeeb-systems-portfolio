@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, KeyboardEvent } from "react";
 import { Terminal } from "lucide-react";
 import { ConsoleLine } from "../types";
+import SnakeGame from "./SnakeGame";
 
 interface BootLogTerminalProps {
   logs: ConsoleLine[];
@@ -11,6 +12,7 @@ interface BootLogTerminalProps {
 export default function BootLogTerminal({ logs, onAddLog, onClearLogs }: BootLogTerminalProps) {
   const [inputVal, setInputVal] = useState("");
   const [isDiagnosticRunning, setIsDiagnosticRunning] = useState(false);
+  const [isSnakeActive, setIsSnakeActive] = useState(false);
   const terminalContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,6 +40,7 @@ export default function BootLogTerminal({ logs, onAddLog, onClearLogs }: BootLog
         onAddLog("  scan       - Run visual scanner across active sectors", "system");
         onAddLog("  clear      - Clear the console logs entirely", "system");
         onAddLog("  operator   - Output Operator ID credentials & biometric data", "system");
+        onAddLog("  snake      - Initialize hidden sub-core game interface", "success");
       } else if (cmd === "clear") {
         onClearLogs();
       } else if (cmd === "diagnose") {
@@ -59,6 +62,9 @@ export default function BootLogTerminal({ logs, onAddLog, onClearLogs }: BootLog
         onAddLog("  Institution: KMCT Engineering College", "system");
         onAddLog("  Specialties: Interface Engineering, Linux setups, Full-Stack Node", "system");
         onAddLog("  Status: Fully Operational", "success");
+      } else if (cmd === "snake" || cmd === "play" || cmd === "game") {
+        setIsSnakeActive(true);
+        onAddLog("SNAKE_OS: Activating sub-core game interface. Ready to initialize.", "warning");
       } else {
         onAddLog(`Command not recognized: '${cmd}'. Type 'help' for core commands.`, "error");
       }
@@ -75,7 +81,7 @@ export default function BootLogTerminal({ logs, onAddLog, onClearLogs }: BootLog
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#0a0a0a] border border-[#3a4a49] font-mono select-none">
+    <div className="relative flex flex-col h-full bg-[#0a0a0a] border border-[#3a4a49] font-mono select-none overflow-hidden">
       {/* Terminal Title Bar */}
       <div className="flex justify-between items-center bg-[#131313] border-b border-[#3a4a49] px-3 py-1 text-[10px] tracking-wider text-[#b9cac9]">
         <div className="flex items-center gap-1.5 text-neon-cyan">
@@ -149,6 +155,14 @@ export default function BootLogTerminal({ logs, onAddLog, onClearLogs }: BootLog
           className="flex-1 bg-transparent border-none outline-none text-[#ffffff] focus:ring-0 placeholder-gray-700 font-mono py-0 h-4"
         />
       </div>
+
+      {/* Snake Game Overlay */}
+      {isSnakeActive && (
+        <SnakeGame 
+          onClose={() => setIsSnakeActive(false)} 
+          onAddLog={onAddLog} 
+        />
+      )}
     </div>
   );
 }
