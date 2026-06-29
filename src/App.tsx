@@ -78,6 +78,8 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   
   // Contact Form State
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
   const [contactMessage, setContactMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -316,20 +318,56 @@ export default function App() {
   };
 
   // Form submission handler
-  const handleSubmitMessage = (e: FormEvent) => {
+  const handleSubmitMessage = async (e: FormEvent) => {
     e.preventDefault();
-    if (!contactMessage.trim()) return;
+    if (!contactName.trim() || !contactEmail.trim() || !contactMessage.trim()) return;
 
     setIsSending(true);
     addLog(`SMTP: Commencing transfer sequence for contact message payload...`, "warning");
 
-    setTimeout(() => {
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+    if (!accessKey) {
+      addLog(`SMTP_ERROR: VITE_WEB3FORMS_ACCESS_KEY is missing in your environment.`, "error");
+      addLog(`INSTRUCTION: Go to web3forms.com, register adeebahamedkm@gmail.com, and add the key to your .env file.`, "system");
       setIsSending(false);
-      setFormSubmitted(true);
-      addLog(`SMTP: Packet successfully routed to Operator Adeeb. Secure socket closed.`, "success");
-      setContactMessage("");
-      setTimeout(() => setFormSubmitted(false), 5000);
-    }, 2000);
+      return;
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: contactName,
+          email: contactEmail,
+          message: contactMessage,
+          subject: `Portfolio Contact from ${contactName}`,
+          from_name: "Adeeb Systems Portfolio",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setIsSending(false);
+        setFormSubmitted(true);
+        addLog(`SMTP: Packet successfully routed to Operator Adeeb. Secure socket closed.`, "success");
+        setContactName("");
+        setContactEmail("");
+        setContactMessage("");
+        setTimeout(() => setFormSubmitted(false), 5000);
+      } else {
+        throw new Error(data.message || "Failed to submit form payload.");
+      }
+    } catch (error: any) {
+      setIsSending(false);
+      addLog(`SMTP_ERROR: Transmission failed: ${error.message}`, "error");
+    }
   };
 
   // Core level visual segmented bar renderer
@@ -1071,21 +1109,52 @@ export default function App() {
               {/* Tab 1: TRANSMIT */}
               {contactTab === "transmit" && (
                 <form onSubmit={handleSubmitMessage} className="p-5 flex flex-col gap-4 flex-1 justify-between">
-                  <div>
-                    <div className="font-mono text-[9px] text-neon-yellow tracking-wider mb-2 uppercase select-none">
+                  <div className="space-y-4">
+                    <div className="font-mono text-[9px] text-neon-yellow tracking-wider uppercase select-none">
                       DIRECT_ENVELOPE_TRANSMISSION // BINDING: PORT_3000
                     </div>
-                    <div className="relative">
-                      <textarea
+
+                    {/* Sender Name Field */}
+                    <div className="space-y-1">
+                      <label className="block font-mono text-[8px] text-gray-500 uppercase tracking-widest">// SENDER_NAME</label>
+                      <input
                         required
-                        value={contactMessage}
-                        onChange={(e) => setContactMessage(e.target.value)}
-                        rows={6}
-                        placeholder="Type your inquiry or message payload here..."
-                        className="w-full bg-[#0a0a0a] border border-[#3a4a49] focus:border-neon-orange outline-none p-4 font-mono text-sm text-[#ffffff] focus:ring-0 placeholder-gray-700 resize-none"
+                        type="text"
+                        value={contactName}
+                        onChange={(e) => setContactName(e.target.value)}
+                        placeholder="Enter your name..."
+                        className="w-full bg-[#0a0a0a] border border-[#3a4a49] focus:border-neon-orange outline-none px-3 py-2 font-mono text-xs text-[#ffffff] focus:ring-0 placeholder-gray-700"
                       />
-                      <div className="absolute top-2 right-2 font-mono text-[8px] text-gray-600 uppercase select-none pointer-events-none">
-                        [PKT_LEN: {contactMessage.length} B]
+                    </div>
+
+                    {/* Sender Email Field */}
+                    <div className="space-y-1">
+                      <label className="block font-mono text-[8px] text-gray-500 uppercase tracking-widest">// SENDER_EMAIL</label>
+                      <input
+                        required
+                        type="email"
+                        value={contactEmail}
+                        onChange={(e) => setContactEmail(e.target.value)}
+                        placeholder="Enter your email address..."
+                        className="w-full bg-[#0a0a0a] border border-[#3a4a49] focus:border-neon-orange outline-none px-3 py-2 font-mono text-xs text-[#ffffff] focus:ring-0 placeholder-gray-700"
+                      />
+                    </div>
+
+                    {/* Message Field */}
+                    <div className="space-y-1">
+                      <label className="block font-mono text-[8px] text-gray-500 uppercase tracking-widest">// MESSAGE_PAYLOAD</label>
+                      <div className="relative">
+                        <textarea
+                          required
+                          value={contactMessage}
+                          onChange={(e) => setContactMessage(e.target.value)}
+                          rows={4}
+                          placeholder="Type your inquiry or message payload here..."
+                          className="w-full bg-[#0a0a0a] border border-[#3a4a49] focus:border-neon-orange outline-none p-3 font-mono text-xs text-[#ffffff] focus:ring-0 placeholder-gray-700 resize-none"
+                        />
+                        <div className="absolute top-2 right-2 font-mono text-[8px] text-gray-600 uppercase select-none pointer-events-none">
+                          [PKT_LEN: {contactMessage.length} B]
+                        </div>
                       </div>
                     </div>
                   </div>
