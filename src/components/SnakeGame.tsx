@@ -151,13 +151,11 @@ export default function SnakeGame({ onClose, onAddLog }: SnakeGameProps) {
         case "RIGHT": head.x += 1; break;
       }
 
-      // Check wall collision
-      if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
-        handleGameOver();
-        return;
-      }
+      // Wrap-around: snake teleports to opposite side (portal walls)
+      head.x = ((head.x % GRID_SIZE) + GRID_SIZE) % GRID_SIZE;
+      head.y = ((head.y % GRID_SIZE) + GRID_SIZE) % GRID_SIZE;
 
-      // Check self collision
+      // Game over only on self collision
       if (snakeRef.current.some(segment => segment.x === head.x && segment.y === head.y)) {
         handleGameOver();
         return;

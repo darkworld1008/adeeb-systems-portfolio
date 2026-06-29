@@ -24,7 +24,8 @@ import {
   MessageSquare,
   User,
   X,
-  Github
+  Github,
+  MousePointer2
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ConsoleLine } from "./types";
@@ -76,6 +77,7 @@ export default function App() {
   const [logs, setLogs] = useState<ConsoleLine[]>(initialBootLogs);
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [cursorStyle, setCursorStyle] = useState<"cyber" | "minimal" | "off">("cyber");
   
   // Contact Form State
   const [contactName, setContactName] = useState("");
@@ -423,7 +425,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-void text-[#e5e2e1] font-sans scanlines cyber-grid sm:pl-16 pb-14 sm:pb-0 selection:bg-[#bf00ff]/30 selection:text-white">
       {/* Custom Animated Cyber Tracking Cursor */}
-      <CustomCursor />
+      <CustomCursor cursorStyle={cursorStyle} />
 
       {/* Interactive Vertical Sidebar on the Left */}
       <NavigationSidebar 
@@ -455,6 +457,21 @@ export default function App() {
             <span className="text-neon-cyan text-[8px] font-bold hidden sm:inline">SECURE_TUNNEL_ESTABLISHED</span>
             <span className="text-neon-cyan text-[8px] font-bold sm:hidden">SECURE</span>
           </div>
+          {/* Cursor style toggle button */}
+          <button
+            onClick={() => setCursorStyle(prev => prev === "cyber" ? "minimal" : prev === "minimal" ? "off" : "cyber")}
+            className="hidden sm:flex items-center gap-1 border border-[#3a4a49] px-1.5 py-0.5 bg-[#111111] hover:border-neon-cyan/50 transition-all text-[8px] font-bold tracking-widest cursor-pointer"
+            title={`Cursor: ${cursorStyle.toUpperCase()} — click to cycle`}
+          >
+            <MousePointer2 className="w-2.5 h-2.5" />
+            <span className={`
+              ${cursorStyle === "cyber" ? "text-neon-cyan" : ""}
+              ${cursorStyle === "minimal" ? "text-[#00ffcc]" : ""}
+              ${cursorStyle === "off" ? "text-gray-500" : ""}
+            `}>
+              {cursorStyle === "cyber" ? "CYBER" : cursorStyle === "minimal" ? "DOT" : "SYS"}
+            </span>
+          </button>
           <button
             onClick={() => setSettingsOpen((v) => !v)}
             className={`relative w-6 h-6 flex items-center justify-center transition-all duration-300 cursor-pointer rounded-sm ${
